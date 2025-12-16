@@ -4,6 +4,6 @@
     "modules": ["BetterAuthReactNativePasskeyModule"]
   },
   "android": {
-    "modules": ["github.kevcube.betterauthreactnativepasskey.BetterAuthReactNativePasskeyModule"]
+    "modules": ["com.lobehub.betterauthreactnativepasskey.BetterAuthReactNativePasskeyModule"]
   }
 }

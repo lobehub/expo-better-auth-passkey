@@ -26,7 +26,7 @@ export const auth = betterAuth({
 		"android:apk-key-hash:-sYXRdwJA3hvue3mKpYrOZ9zSPC7b4mbgzJmdZEDO5w",
 		`https://${process.env.EXPO_PUBLIC_NGROK_URL}`,
 		"better-auth-react-native-passkey-example://",
-		"github.kevcube.betterauthreactnativepasskey.example://",
+		"com.lobehub.betterauthreactnativepasskey.example://",
 		"http://localhost:8081",
 		"http://kevins-laptop.local:8081",
 	],

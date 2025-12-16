@@ -1,4 +1,4 @@
-package github.kevcube.betterauthreactnativepasskey
+package com.lobehub.betterauthreactnativepasskey
 
 import android.app.Activity
 import android.os.Build

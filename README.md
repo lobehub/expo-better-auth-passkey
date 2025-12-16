@@ -1,4 +1,4 @@
-# expo-better-auth-passkey
+# @lobehub/expo-better-auth-passkey
 
 Expo/React Native drop-in replacement for the Better Auth [`passkeyClient`](https://github.com/better-auth/better-auth) that works everywhere Better Auth runs today: Web, Android, and iOS. macOS shares the same native implementation but still needs wider community testing—pull requests and reports are welcome.
 
@@ -30,11 +30,11 @@ Expo/React Native drop-in replacement for the Better Auth [`passkeyClient`](http
 ### Install the package
 
 ```bash
-npm install expo-better-auth-passkey
+npm install @lobehub/expo-better-auth-passkey
 # or
-yarn add expo-better-auth-passkey
+yarn add @lobehub/expo-better-auth-passkey
 # or
-bun add expo-better-auth-passkey
+bun add @lobehub/expo-better-auth-passkey
 ```
 
 The native module is autolinked. If you use a bare/React Native CLI project, run `npx pod-install` after installing.
@@ -45,7 +45,7 @@ Replace the standard `passkeyClient` with `expoPasskeyClient`. Nothing else chan
 
 ```ts
 import { createAuthClient } from 'better-auth/react'
-import { expoPasskeyClient } from 'expo-better-auth-passkey'
+import { expoPasskeyClient } from '@lobehub/expo-better-auth-passkey'
 
 export const authClient = createAuthClient({
   baseURL: 'https://your-api.mydomain.com',
@@ -166,4 +166,4 @@ macOS uses the same AuthenticationServices implementation as iOS but has limited
 
 ## License
 
-MIT © kevcube
+MIT © LobeHub

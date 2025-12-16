@@ -1,5 +1,5 @@
 {
-  "name": "expo-better-auth-passkey",
+  "name": "@lobehub/expo-better-auth-passkey",
   "version": "1.0.0",
   "description": "Expo native passkey support for better-auth",
   "main": "build/index.js",
@@ -23,13 +23,13 @@
     "passkey",
     "webauthn"
   ],
-  "repository": "https://github.com/kevcube/expo-better-auth-passkey",
+  "repository": "https://github.com/lobehub/expo-better-auth-passkey",
   "bugs": {
-    "url": "https://github.com/kevcube/expo-better-auth-passkey/issues"
+    "url": "https://github.com/lobehub/expo-better-auth-passkey/issues"
   },
-  "author": "kevcube <kevin@icecube.dog> (kevcube)",
+  "author": "LobeHub <hello@lobehub.com> (https://lobehub.com)",
   "license": "MIT",
-  "homepage": "https://github.com/kevcube/expo-better-auth-passkey#readme",
+  "homepage": "https://github.com/lobehub/expo-better-auth-passkey#readme",
   "files": [
     "build",
     "android",

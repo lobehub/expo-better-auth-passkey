@@ -3,12 +3,12 @@
     "apps": [],
     "details": [
       {
-        "appID": "ZM4MW68CJV.github.kevcube.betterauthreactnativepasskey.example",
+        "appID": "ZM4MW68CJV.com.lobehub.betterauthreactnativepasskey.example",
         "paths": ["*"]
       }
     ]
   },
   "webcredentials": {
-    "apps": ["ZM4MW68CJV.github.kevcube.betterauthreactnativepasskey.example"]
+    "apps": ["ZM4MW68CJV.com.lobehub.betterauthreactnativepasskey.example"]
   }
 }
