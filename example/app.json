@@ -18,7 +18,8 @@
       "bundleIdentifier": "com.lobehub.betterauthreactnativepasskey.example",
       "associatedDomains": [
         "webcredentials:b74e92713a63.ngrok-free.app?mode=developer"
-      ]
+      ],
+      "appleTeamId": "KC7M7NTLTC"
     },
     "android": {
       "adaptiveIcon": {
