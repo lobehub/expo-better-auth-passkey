@@ -1,7 +1,7 @@
 import { expo } from "@better-auth/expo";
 import { betterAuth } from "better-auth";
 import { anonymous } from "better-auth/plugins/anonymous";
-import { passkey } from "better-auth/plugins/passkey";
+import { passkey } from "@better-auth/passkey";
 import { Pool } from "pg";
 
 export const auth = betterAuth({

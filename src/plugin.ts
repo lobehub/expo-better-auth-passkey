@@ -8,8 +8,8 @@ import type {
 	BetterFetch,
 	BetterFetchOption,
 } from "better-auth/client";
-import { getPasskeyActions, passkeyClient } from "better-auth/client/plugins";
-import type { Passkey } from "better-auth/plugins/passkey";
+import { getPasskeyActions, passkeyClient } from "@better-auth/passkey/client";
+import type { Passkey } from "@better-auth/passkey";
 import { atom } from "nanostores";
 import { Platform } from "react-native";
 import PasskeyModule from "./BetterAuthReactNativePasskeyModule";
@@ -27,11 +27,11 @@ export const expoPasskeyClient = () => {
 	return {
 		id: baseClient.id,
 		$InferServerPlugin: baseClient.$InferServerPlugin,
-		getActions: ($fetch: BetterFetch) => {
-			return Platform.select({
-					web: getPasskeyActions($fetch, { $listPasskeys }),
-					default: getPasskeyActionsNative($fetch, { $listPasskeys }),
-				})
+		getActions: ($fetch: BetterFetch, $store: any) => {
+			if (Platform.OS === 'web') {
+				return getPasskeyActions($fetch, { $listPasskeys, $store });
+			}
+			return getPasskeyActionsNative($fetch, { $listPasskeys });
 		},
 		getAtoms: baseClient.getAtoms,
 		pathMethods: baseClient.pathMethods,
@@ -144,7 +144,7 @@ export const getPasskeyActionsNative = (
 			);
 			if (!verified.data) return verified;
 			$listPasskeys.set(Math.random());
-			return;
+			return verified;
 		} catch (e) {
 			console.error("Passkey registration error:", e);
 			let errorMessage = "auth cancelled";
