@@ -3,8 +3,8 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "better-auth-react-native-passkey": ["../src/index"],
-      "better-auth-react-native-passkey/*": ["../src/*"],
+      "@lobehub/expo-better-auth-passkey": ["../src/index"],
+      "@lobehub/expo-better-auth-passkey/*": ["../src/*"],
       "@/*": ["./*"]
     }
   }
