@@ -1,6 +1,6 @@
 {
   "name": "@lobehub/expo-better-auth-passkey",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Expo native passkey support for better-auth",
   "main": "build/index.js",
   "types": "build/index.d.ts",
