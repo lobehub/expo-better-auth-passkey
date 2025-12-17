@@ -43,12 +43,11 @@
     "expo-module.config.json"
   ],
   "devDependencies": {
-    "@better-auth/passkey": "^1.4.7",
+    "@better-auth/passkey": "1.4.7",
     "@simplewebauthn/browser": "^11.0.0",
     "@simplewebauthn/types": "*",
     "@types/react": "~19.1.10",
-    "better-auth": "^1.4.7",
-    "bumpp": "^10.3.2",
+    "better-auth": "1.4.7",
     "expo": "~54.0.6",
     "expo-module-scripts": "^4.1.10",
     "react-native": "0.81.5"
