@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.0 (2025-12-17)
+
+
+### Features
+
+* update better auth version ([1404b82](https://github.com/lobehub/expo-better-auth-passkey/commit/1404b82db5e698165e9aee9b0214afbcb309e2ed))
+
 ## [1.3.0](https://github.com/lobehub/expo-better-auth-passkey/compare/v1.2.1...v1.3.0) (2025-10-08)
 
 
