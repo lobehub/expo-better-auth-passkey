@@ -1,6 +1,6 @@
 {
   "name": "@lobehub/expo-better-auth-passkey",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Expo native passkey support for better-auth",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -13,7 +13,12 @@
     "prepublishOnly": "expo-module prepublishOnly",
     "expo-module": "expo-module",
     "open:ios": "xed example/ios",
-    "open:android": "open -a \"Android Studio\" example/android"
+    "open:android": "open -a \"Android Studio\" example/android",
+    "release": "bumpp && pnpm build && npm publish --access public"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   },
   "keywords": [
     "react-native",
@@ -38,22 +43,23 @@
     "expo-module.config.json"
   ],
   "devDependencies": {
+    "@better-auth/passkey": "^1.4.7",
     "@simplewebauthn/browser": "^11.0.0",
     "@simplewebauthn/types": "*",
     "@types/react": "~19.1.10",
     "better-auth": "^1.4.7",
-    "@better-auth/passkey": "^1.4.7",
+    "bumpp": "^10.3.2",
     "expo": "~54.0.6",
     "expo-module-scripts": "^4.1.10",
     "react-native": "0.81.5"
   },
   "peerDependencies": {
+    "@better-auth/passkey": "^1.4.0",
     "@better-fetch/fetch": "^1.1.18",
     "better-auth": "^1.4.0",
-    "@better-auth/passkey": "^1.4.0",
     "expo": "~54.0.0",
+    "nanostores": "*",
     "react": "*",
-    "react-native": "*",
-    "nanostores": "*"
+    "react-native": "*"
   }
 }
