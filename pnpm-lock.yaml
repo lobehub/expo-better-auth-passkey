@@ -17,6 +17,9 @@ importers:
       react:
         specifier: '*'
         version: 19.2.3
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
     devDependencies:
       '@better-auth/passkey':
         specifier: 1.4.6
