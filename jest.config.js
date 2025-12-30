@@ -16,6 +16,9 @@ module.exports = {
       },
     ],
   },
+  moduleNameMapper: {
+    "^nanostores$": "<rootDir>/src/__tests__/__mocks__/nanostores.ts",
+  },
   moduleFileExtensions: ["ts", "tsx", "js", "json"],
   testMatch: ["**/__tests__/**/*.(test|spec).(ts|tsx|js)"],
   watchman: false,
