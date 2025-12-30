@@ -1,6 +1,6 @@
 {
   "name": "@lobehub/expo-better-auth-passkey",
-  "version": "1.4.9",
+  "version": "1.0.0",
   "description": "Expo native passkey support for better-auth",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -14,7 +14,7 @@
     "expo-module": "expo-module",
     "open:ios": "xed example/ios",
     "open:android": "open -a \"Android Studio\" example/android",
-    "release": "tsc && npm publish --access public --ignore-scripts"
+    "release": "pnpm run test && tsc && npm publish --access public --ignore-scripts"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
