@@ -7,23 +7,32 @@ import AuthenticationServices
 
 struct PKCCreationRP {
   let id: String
-  init(dict: [String: Any]) { self.id = dict["id"] as! String }
+  init?(dict: [String: Any]) {
+    guard let id = dict["id"] as? String else { return nil }
+    self.id = id
+  }
 }
 
 struct PKCCreationUser {
   let id: String
   let name: String
   let displayName: String
-  init(dict: [String: Any]) {
-    self.id = dict["id"] as! String
-    self.name = dict["name"] as! String
-    self.displayName = dict["displayName"] as! String
+  init?(dict: [String: Any]) {
+    guard let id = dict["id"] as? String,
+          let name = dict["name"] as? String,
+          let displayName = dict["displayName"] as? String else { return nil }
+    self.id = id
+    self.name = name
+    self.displayName = displayName
   }
 }
 
 struct PKCDescriptor {
   let id: String
-  init(dict: [String: Any]) { self.id = dict["id"] as! String }
+  init?(dict: [String: Any]) {
+    guard let id = dict["id"] as? String else { return nil }
+    self.id = id
+  }
 }
 
 struct PKCAuthenticatorSelection {
@@ -38,12 +47,15 @@ struct PublicKeyCredentialCreationOptionsJSONLite {
   let excludeCredentials: [PKCDescriptor]
   let authenticatorSelection: PKCAuthenticatorSelection?
 
-  init(dict: [String: Any]) {
-    self.rp = PKCCreationRP(dict: dict["rp"] as! [String: Any])
-    self.challenge = dict["challenge"] as! String
-    self.user = PKCCreationUser(dict: dict["user"] as! [String: Any])
+  init?(dict: [String: Any]) {
+    guard let rpDict = dict["rp"] as? [String: Any], let rp = PKCCreationRP(dict: rpDict) else { return nil }
+    guard let challenge = dict["challenge"] as? String else { return nil }
+    guard let userDict = dict["user"] as? [String: Any], let user = PKCCreationUser(dict: userDict) else { return nil }
+    self.rp = rp
+    self.challenge = challenge
+    self.user = user
     if let arr = dict["excludeCredentials"] as? [[String: Any]] {
-      self.excludeCredentials = arr.map { PKCDescriptor(dict: $0) }
+      self.excludeCredentials = arr.compactMap { PKCDescriptor(dict: $0) }
     } else {
       self.excludeCredentials = []
     }
@@ -62,11 +74,13 @@ struct PublicKeyCredentialRequestOptionsJSONLite {
   let allowCredentials: [PKCDescriptor]
   let userVerification: String?
 
-  init(dict: [String: Any]) {
-    self.rpId = dict["rpId"] as! String
-    self.challenge = dict["challenge"] as! String
+  init?(dict: [String: Any]) {
+    guard let rpId = dict["rpId"] as? String else { return nil }
+    guard let challenge = dict["challenge"] as? String else { return nil }
+    self.rpId = rpId
+    self.challenge = challenge
     if let arr = dict["allowCredentials"] as? [[String: Any]] {
-      self.allowCredentials = arr.map { PKCDescriptor(dict: $0) }
+      self.allowCredentials = arr.compactMap { PKCDescriptor(dict: $0) }
     } else {
       self.allowCredentials = []
     }

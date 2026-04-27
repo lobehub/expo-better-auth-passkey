@@ -20,13 +20,17 @@ public class BetterAuthReactNativePasskeyModule: Module {
     // Native passkey creation using ASAuthorizationController
     // Supports only the wrapped shape from TypeScript: { optionsJSON, useAutoRegister? }
     AsyncFunction("registerPasskey") { (input: [String: Any], promise: Promise) in
-      self.handleCreatePasskey(input: input, promise: promise)
+      DispatchQueue.main.async {
+        self.handleCreatePasskey(input: input, promise: promise)
+      }
     }
 
     // Native passkey authentication using ASAuthorizationController
     // Supports only the wrapped shape from TypeScript: { optionsJSON, useAutofill? }
     AsyncFunction("authenticatePasskey") { (input: [String: Any], promise: Promise) in
-      self.handleGetPasskey(input: input, promise: promise)
+      DispatchQueue.main.async {
+        self.handleGetPasskey(input: input, promise: promise)
+      }
     }
   }
 }
@@ -35,20 +39,33 @@ public class BetterAuthReactNativePasskeyModule: Module {
 
 extension BetterAuthReactNativePasskeyModule {
   fileprivate func handleCreatePasskey(input: [String: Any], promise: Promise) {
-    // Input must be @simplewebauthn/types PublicKeyCredentialCreationOptionsJSON
-    let options = input["optionsJSON"] as! [String: Any]
-    let creation = PublicKeyCredentialCreationOptionsJSONLite(dict: options)
+    guard let options = input["optionsJSON"] as? [String: Any] else {
+      promise.reject("ERR_CREATE_PASSKEY", "Missing or invalid optionsJSON")
+      return
+    }
 
-    let challenge = BetterAuthReactNativePasskeyModule.fromBase64URL(creation.challenge)!
-    let userId = BetterAuthReactNativePasskeyModule.fromBase64URL(creation.user.id)!
+    guard let creation = PublicKeyCredentialCreationOptionsJSONLite(dict: options) else {
+      promise.reject("ERR_CREATE_PASSKEY", "Failed to parse creation options: missing required fields (rp, challenge, or user)")
+      return
+    }
+
+    guard let challenge = BetterAuthReactNativePasskeyModule.fromBase64URL(creation.challenge) else {
+      promise.reject("ERR_CREATE_PASSKEY", "Invalid base64url challenge")
+      return
+    }
+
+    guard let userId = BetterAuthReactNativePasskeyModule.fromBase64URL(creation.user.id) else {
+      promise.reject("ERR_CREATE_PASSKEY", "Invalid base64url user ID")
+      return
+    }
 
     let provider = ASAuthorizationPlatformPublicKeyCredentialProvider(relyingPartyIdentifier: creation.rp.id)
     let passkeyName = creation.user.name.isEmpty ? creation.user.displayName : creation.user.name
     let request = provider.createCredentialRegistrationRequest(challenge: challenge, name: passkeyName, userID: userId)
 
-    // Exclusions
-    let descriptors: [ASAuthorizationPlatformPublicKeyCredentialDescriptor] = creation.excludeCredentials.map { cred in
-      let id = BetterAuthReactNativePasskeyModule.fromBase64URL(cred.id)!
+    // Exclusions — skip descriptors with invalid base64url IDs instead of crashing
+    let descriptors: [ASAuthorizationPlatformPublicKeyCredentialDescriptor] = creation.excludeCredentials.compactMap { cred in
+      guard let id = BetterAuthReactNativePasskeyModule.fromBase64URL(cred.id) else { return nil }
       return ASAuthorizationPlatformPublicKeyCredentialDescriptor(credentialID: id)
     }
     if #available(iOS 17.4, *) {
@@ -103,17 +120,27 @@ extension BetterAuthReactNativePasskeyModule {
   }
 
   fileprivate func handleGetPasskey(input: [String: Any], promise: Promise) {
-    // Only support wrapped shape from TS bridge
-    let options = input["optionsJSON"] as! [String: Any]
-    let req = PublicKeyCredentialRequestOptionsJSONLite(dict: options)
-    let challenge = BetterAuthReactNativePasskeyModule.fromBase64URL(req.challenge)!
+    guard let options = input["optionsJSON"] as? [String: Any] else {
+      promise.reject("ERR_GET_PASSKEY", "Missing or invalid optionsJSON")
+      return
+    }
+
+    guard let req = PublicKeyCredentialRequestOptionsJSONLite(dict: options) else {
+      promise.reject("ERR_GET_PASSKEY", "Failed to parse request options: missing required fields (rpId or challenge)")
+      return
+    }
+
+    guard let challenge = BetterAuthReactNativePasskeyModule.fromBase64URL(req.challenge) else {
+      promise.reject("ERR_GET_PASSKEY", "Invalid base64url challenge")
+      return
+    }
 
     let provider = ASAuthorizationPlatformPublicKeyCredentialProvider(relyingPartyIdentifier: req.rpId)
     let request = provider.createCredentialAssertionRequest(challenge: challenge)
 
-    // Allow list
-    let descriptors: [ASAuthorizationPlatformPublicKeyCredentialDescriptor] = req.allowCredentials.map { cred in
-      let id = BetterAuthReactNativePasskeyModule.fromBase64URL(cred.id)!
+    // Allow list — skip descriptors with invalid base64url IDs instead of crashing
+    let descriptors: [ASAuthorizationPlatformPublicKeyCredentialDescriptor] = req.allowCredentials.compactMap { cred in
+      guard let id = BetterAuthReactNativePasskeyModule.fromBase64URL(cred.id) else { return nil }
       return ASAuthorizationPlatformPublicKeyCredentialDescriptor(credentialID: id)
     }
     request.allowedCredentials = descriptors
