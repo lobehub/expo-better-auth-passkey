@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.7](https://github.com/lobehub/expo-better-auth-passkey/compare/v0.0.6...v0.0.7) (2026-06-12)
+
+
+### Bug Fixes
+
+* **ios:** replace force-unwraps with guard-let and dispatch to main thread ([#1](https://github.com/lobehub/expo-better-auth-passkey/issues/1)) ([af96b25](https://github.com/lobehub/expo-better-auth-passkey/commit/af96b25cf3a03cb1b89ba8873b85daf1f72e96ce))
+
 ## [1.3.0](https://github.com/lobehub/expo-better-auth-passkey/compare/v1.2.1...v1.3.0) (2025-10-08)
 
 
