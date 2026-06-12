@@ -3,40 +3,44 @@ import type {
   PublicKeyCredentialRequestOptionsJSON,
 } from "@simplewebauthn/types";
 import type { Session, User } from "better-auth";
-import type {
-  BetterAuthClientPlugin,
-  BetterFetch,
-  BetterFetchOption,
-} from "better-auth/client";
+import type { BetterFetch, BetterFetchOption } from "better-auth/client";
 import { getPasskeyActions, passkeyClient } from "@better-auth/passkey/client";
 import type { Passkey } from "@better-auth/passkey";
 import { atom } from "nanostores";
 import { Platform } from "react-native";
 import PasskeyModule from "./BetterAuthReactNativePasskeyModule";
 
+type BasePasskeyClient = ReturnType<typeof passkeyClient>;
+type PasskeyActions = ReturnType<BasePasskeyClient["getActions"]>;
+
 /**
  * Expo/React Native passkey client that extends better-auth's `passkeyClient`
  * and overrides only the device WebAuthn calls to use React Native modules.
  */
 
-export const expoPasskeyClient = () => {
-  // Get the base passkey client
+export const expoPasskeyClient = (): BasePasskeyClient => {
   const baseClient = passkeyClient();
   const $listPasskeys = atom<number>(0);
 
   return {
-    id: baseClient.id,
-    $InferServerPlugin: baseClient.$InferServerPlugin,
-    getActions: ($fetch: BetterFetch, $store: any) => {
+    ...baseClient,
+    getActions: ($fetch, $store) => {
       if (Platform.OS === "web") {
         return getPasskeyActions($fetch, { $listPasskeys, $store });
       }
-      return getPasskeyActionsNative($fetch, { $listPasskeys, $store });
+      // Native covers the device-meaningful subset of the web actions
+      // (no `returnWebAuthnResponse`, no `extensions`) and returns a
+      // slightly different error/data shape. We cast to the base actions
+      // type so the plugin slots into BetterAuthClient's type inference.
+      // NOTE: this cast hides shape drift — if `@better-auth/passkey` adds
+      // a new action (e.g. `passkey.deletePasskey`) and native doesn't
+      // implement it, neither tsc nor the current tests will catch it.
+      return getPasskeyActionsNative($fetch, {
+        $listPasskeys,
+        $store,
+      }) as unknown as PasskeyActions;
     },
-    getAtoms: baseClient.getAtoms,
-    pathMethods: baseClient.pathMethods,
-    atomListeners: baseClient.atomListeners,
-  } satisfies BetterAuthClientPlugin;
+  };
 };
 
 export const getPasskeyActionsNative = (

@@ -56,7 +56,7 @@ describe("expoPasskeyClient", () => {
     const mockFetch = jest.fn();
     const mockStore = { notify: jest.fn() };
 
-    const actions = client.getActions(mockFetch, mockStore);
+    const actions = client.getActions(mockFetch, mockStore as any);
 
     expect(actions).toHaveProperty("signIn");
     expect(actions).toHaveProperty("passkey");
@@ -73,7 +73,7 @@ describe("expoPasskeyClient", () => {
     const mockFetch = jest.fn();
     const mockStore = { notify: jest.fn() };
 
-    client.getActions(mockFetch, mockStore);
+    client.getActions(mockFetch, mockStore as any);
 
     expect(getPasskeyActions).toHaveBeenCalled();
 
